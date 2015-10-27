@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ExamRevisionTracker.iml" filepath="$PROJECT_DIR$/ExamRevisionTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RevisionHelper.iml" filepath="$PROJECT_DIR$/RevisionHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-

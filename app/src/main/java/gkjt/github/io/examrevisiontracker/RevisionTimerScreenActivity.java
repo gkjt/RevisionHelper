@@ -1,12 +1,20 @@
 package gkjt.github.io.examrevisiontracker;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class RevisionTimerScreenActivity extends ActionBarActivity {
+public class RevisionTimerScreenActivity extends AppCompatActivity {
+
+    boolean isBound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +43,34 @@ public class RevisionTimerScreenActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private RevisionTrackerBackgroundService bgService;
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            bgService = ((RevisionTrackerBackgroundService.ServiceBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            bgService = null;
+        }
+    };
+
+    private void doBindService(){
+        bindService(new Intent(RevisionTimerScreenActivity.this, RevisionTrackerBackgroundService.class),
+                connection,
+                Context.BIND_AUTO_CREATE);
+        isBound = true;
+    }
+
+    private void doUnbindService(){
+        if(isBound){
+            unbindService(connection);
+            isBound = false;
+        }
     }
 }
