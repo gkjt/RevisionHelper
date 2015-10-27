@@ -3,17 +3,20 @@ package gkjt.github.io.examrevisiontracker;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.os.Handler;
 
 public class RevisionTrackerBackgroundService extends Service {
-
-    private enum State{
-        STARTED, PAUSED, FINISHED
-    }
+    public long timeRemaining;
+    public CountDownTimer timer;
+    public static final String DURATION_KEY = "duration";
 
     private State state;
+    private TimerHandler finishHandler;
+
+    private enum State{
+        RUNNING, PAUSED, IDLE
+    }
 
     public class ServiceBinder extends Binder{
         RevisionTrackerBackgroundService getService(){
@@ -21,14 +24,24 @@ public class RevisionTrackerBackgroundService extends Service {
         }
     }
 
+    public interface TimerHandler{
+        void onTimerFinish();
+        void onTimerTick(long timeRemaining);
+    }
+
     @Override
     public void onCreate(){
-        state = State.STARTED;
+        setState(State.IDLE);
+    }
 
+    public void setFinishHandler(TimerHandler t){
+        finishHandler = t;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
+        //TODO: Is it worth starting here or letting the binder do it?
+        startTimer(intent.getLongExtra(DURATION_KEY, 0l));
         return START_NOT_STICKY;
     }
 
@@ -41,6 +54,60 @@ public class RevisionTrackerBackgroundService extends Service {
 
     @Override
     public void onDestroy(){
+        if(timer != null)
+            timer.cancel();
+        super.onDestroy();
+    }
 
+    public State getState(){
+        return state;
+    }
+
+    public void setState(State s){
+        state = s;
+    }
+
+    public long getTimeRemaining(){
+        return timeRemaining;
+    }
+
+    public void startTimer(long duration){
+        if(duration > 0){
+            setState(State.RUNNING);
+            timer = new CountDownTimer(duration, 60000) {
+                public void onTick(long millisRemaining){
+                    timeRemaining = millisRemaining;
+                    finishHandler.onTimerTick(millisRemaining);
+                }
+
+                public void onFinish(){
+                    timeRemaining = 0l;
+                    finishTimer();
+                }
+            };
+
+            timer.start();
+        }
+    }
+
+    public void pauseTimer(){
+        setState(State.PAUSED);
+        timer.cancel();
+    }
+
+    public void resumeTimer(){
+        setState(State.RUNNING);
+        startTimer(timeRemaining);
+    }
+
+    public void stopTimer(){
+        timer.cancel();
+        timeRemaining = 0;
+        finishTimer();
+    }
+
+    public void finishTimer(){
+        finishHandler.onTimerFinish();
+        stopSelf();
     }
 }

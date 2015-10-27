@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class RevisionTimerScreenActivity extends AppCompatActivity {
+public class RevisionTimerScreenActivity extends AppCompatActivity implements RevisionTrackerBackgroundService.TimerHandler{
 
     boolean isBound = false;
 
@@ -45,6 +45,17 @@ public class RevisionTimerScreenActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+
 
     private RevisionTrackerBackgroundService bgService;
 
@@ -61,10 +72,9 @@ public class RevisionTimerScreenActivity extends AppCompatActivity {
     };
 
     private void doBindService(){
-        bindService(new Intent(RevisionTimerScreenActivity.this, RevisionTrackerBackgroundService.class),
+        isBound = bindService(new Intent(RevisionTimerScreenActivity.this, RevisionTrackerBackgroundService.class),
                 connection,
-                Context.BIND_AUTO_CREATE);
-        isBound = true;
+                0);
     }
 
     private void doUnbindService(){
@@ -72,5 +82,49 @@ public class RevisionTimerScreenActivity extends AppCompatActivity {
             unbindService(connection);
             isBound = false;
         }
+    }
+
+    private void timerPause(){
+        if(isBound){
+            bgService.pauseTimer();
+        }
+
+        //TODO: Change to pause screen
+    }
+
+    private void timerResume(){
+        if(isBound) {
+            bgService.resumeTimer();
+        }
+
+        //TODO: Change back to resume
+        //TODO: Vary opacity on timer?
+    }
+
+    @Override
+    public void onTimerFinish(){
+        //TODO: Transition to timer finished screen
+    }
+
+    @Override
+    public void onTimerTick(long timeRemaining){
+        //TODO: Update timer with number of minutes remaining
+    }
+
+    private void timerStop(){
+        if(isBound){
+            bgService.finishTimer();
+        }
+
+        //TODO: Return to main activity or a timer stopped activity
+    }
+
+    private void startTimer(long duration){
+        startService(new Intent(this, RevisionTrackerBackgroundService.class)
+                .putExtra(RevisionTrackerBackgroundService.DURATION_KEY, duration));
+
+        doBindService();
+
+        //TODO: Transition to timer screen
     }
 }
