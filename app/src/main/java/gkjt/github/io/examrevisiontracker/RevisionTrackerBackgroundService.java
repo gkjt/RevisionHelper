@@ -14,7 +14,7 @@ public class RevisionTrackerBackgroundService extends Service {
     private State state;
     private TimerHandler finishHandler;
 
-    private enum State{
+    public enum State{
         RUNNING, PAUSED, IDLE
     }
 
@@ -41,7 +41,7 @@ public class RevisionTrackerBackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         //TODO: Is it worth starting here or letting the binder do it?
-        startTimer(intent.getLongExtra(DURATION_KEY, 0l));
+//        startTimer(intent.getLongExtra(DURATION_KEY, 0l));
         return START_NOT_STICKY;
     }
 
@@ -74,7 +74,7 @@ public class RevisionTrackerBackgroundService extends Service {
     public void startTimer(long duration){
         if(duration > 0){
             setState(State.RUNNING);
-            timer = new CountDownTimer(duration, 60000) {
+            timer = new CountDownTimer(duration, 1000) {
                 public void onTick(long millisRemaining){
                     timeRemaining = millisRemaining;
                     finishHandler.onTimerTick(millisRemaining);

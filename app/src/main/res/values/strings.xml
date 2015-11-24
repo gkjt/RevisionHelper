@@ -14,4 +14,7 @@
     <string name="timer_screen_subject">Revising: </string>
     <string name="title_activity_subject_select">SubjectSelectActivity</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

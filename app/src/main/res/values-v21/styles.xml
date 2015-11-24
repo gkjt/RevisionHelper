@@ -1,6 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
+    @Theme
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primaryDark</item>
