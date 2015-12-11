@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LineGraphView">
+        <attr name="minX" format="float"/>
+        <attr name="minY" format="float"/>
+        <attr name="maxX" format="float"/>
+        <attr name="maxY" format="float"/>
+    </declare-styleable>
+</resources>

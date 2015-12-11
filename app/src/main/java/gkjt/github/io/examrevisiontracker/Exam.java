@@ -7,9 +7,13 @@ public class Exam {
     private long _id, _time;
     private String _title;
 
-    //TODO: Sort out constructors
-
     public Exam(){}
+
+    public Exam(long id, long time, String title){
+        this._id = id;
+        this._time = time;
+        this._title = title;
+    }
 
     public void setId(long id){
         _id = id;

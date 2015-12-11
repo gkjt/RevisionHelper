@@ -145,7 +145,7 @@ public class RevisionTimerScreenActivity extends AppCompatActivity implements Re
 
     @Override
     public void onTimerTick(long timeRemaining){
-        int minutes = (int) (timeRemaining / (60*1000));
+        int minutes = (int) (timeRemaining / (60*1000)) + 1;
         TextView revisionTimer = (TextView)findViewById(R.id.revision_timer_countdown);
         revisionTimer.setText(new Integer(minutes).toString());
     }

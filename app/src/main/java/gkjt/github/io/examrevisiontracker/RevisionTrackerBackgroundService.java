@@ -40,8 +40,6 @@ public class RevisionTrackerBackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        //TODO: Is it worth starting here or letting the binder do it?
-//        startTimer(intent.getLongExtra(DURATION_KEY, 0l));
         return START_NOT_STICKY;
     }
 
