@@ -8,9 +8,9 @@ import android.util.Log;
  */
 public class ExamTable {
     public static final String TABLE_EXAMS = "exams";
-    public static final String COL_ID = "_id";
+    public static final String COL_ID = "exam_id";
     public static final String COL_TITLE = "title";
-    public static final String COL_TIME = "time";
+    public static final String COL_TIME = "time_revised";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_EXAMS
             + " ("

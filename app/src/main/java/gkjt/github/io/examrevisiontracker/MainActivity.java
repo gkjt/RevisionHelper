@@ -7,6 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import gkjt.github.io.examrevisiontracker.datahandling.RevisionDataHelper;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +28,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(this, RevisionTimerScreenActivity.class));
+        //PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
+
+
+        LineChart hoursPerDayChart = (LineChart) findViewById(R.id.hoursPerDay);
+        ArrayList<Entry> valsDay = new ArrayList<Entry>();
+        valsDay.add(new Entry(2, 0));
+        valsDay.add(new Entry(7, 1));
+        valsDay.add(new Entry(1, 2));
+        valsDay.add(new Entry(9, 3));
+        valsDay.add(new Entry(2, 4));
+        valsDay.add(new Entry(6, 5));
+        valsDay.add(new Entry(5, 6));
+        LineDataSet setDay = new LineDataSet(valsDay, "Hours Revised Per Day");
+        setDay.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("M"); xVals.add("T"); xVals.add("W"); xVals.add("T");
+        xVals.add("F"); xVals.add("S"); xVals.add("S");
+        LineData dataDays = new LineData(xVals, setDay);
+        hoursPerDayChart.setData(dataDays);
+
+        hoursPerDayChart.setDescription("Hours Revised per Day");
+        hoursPerDayChart.notifyDataSetChanged();
+        hoursPerDayChart.invalidate();
+
+        //startActivity(new Intent(this, RevisionTimerScreenActivity.class));
     }
 
 
@@ -38,5 +77,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initCharts(){
+        RevisionDataHelper dataSource = new RevisionDataHelper(this);
+        //Init pie chart
+        PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
+        List<Exam> exams = dataSource.getExams();
+        ArrayList<Entry> hoursEntries = new ArrayList<Entry>();
+        ArrayList<String> hoursNames = new ArrayList<String>();
+        int i = 0;
+        for(Exam e : exams){
+            hoursEntries.add(new Entry(e.getTimeRevised(), i++));
+            hoursNames.add(e.getTitle());
+        }
+        PieDataSet hoursSet = new PieDataSet(hoursEntries, "Hours revised Per Subject");
+        PieData hoursData = new PieData(hoursNames, hoursSet);
+        hoursPerSubjectChart.setData(hoursData);
+        hoursPerSubjectChart.notifyDataSetChanged();
+        hoursPerSubjectChart.invalidate();
+        //init line chart
     }
 }

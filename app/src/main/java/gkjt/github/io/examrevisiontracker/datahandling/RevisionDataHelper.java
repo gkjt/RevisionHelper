@@ -40,7 +40,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(ExamTable.COL_TIME, exam.getTime());
+        values.put(ExamTable.COL_TIME, exam.getTimeRevised());
         values.put(ExamTable.COL_TITLE, exam.getTitle());
 
         return db.insert(ExamTable.TABLE_EXAMS, null, values);
@@ -69,7 +69,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
             Exam exam = new Exam();
 
             exam.setId(curs.getLong(curs.getColumnIndex(ExamTable.COL_ID)));
-            exam.setTime(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
+            exam.setTimeRevised(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
             exam.setTitle(curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE)));
 
             return exam;
@@ -113,7 +113,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 				Exam exam = new Exam();
 
 				exam.setId(curs.getLong(curs.getColumnIndex(ExamTable.COL_ID)));
-				exam.setTime(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
+				exam.setTimeRevised(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
 				exam.setTitle(curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE)));
 
 				exams.add(exam);
@@ -155,7 +155,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 		ContentValues vals = new ContentValues();
 
 		vals.put(ExamTable.COL_TITLE, exam.getTitle());
-		vals.put(ExamTable.COL_TIME, exam.getTime());
+		vals.put(ExamTable.COL_TIME, exam.getTimeRevised());
 
 		return db.update(
 				ExamTable.TABLE_EXAMS,

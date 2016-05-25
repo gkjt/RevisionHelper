@@ -8,9 +8,10 @@ import android.util.Log;
  */
 public class SessionTable {
     public static final String TABLE_SESSIONS = "sessions";
-    public static final String COL_ID = "_id";
+    public static final String COL_ID = "session_id";
     public static final String COL_DURATION = "duration";
     public static final String COL_TIME = "time";
+    public static final String COL_EXAM = "exam_id";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS
             + " ("
@@ -19,6 +20,8 @@ public class SessionTable {
             + COL_DURATION
             + " INTEGER NOT NULL, "
             + COL_TIME
+            + " INTEGER NOT NULL"
+            + COL_EXAM
             + " INTEGER NOT NULL"
             + ");";
 

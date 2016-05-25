@@ -9,6 +9,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Created by User on 24/11/2015.
  */
@@ -24,11 +26,12 @@ public class LineGraphView extends View {
 
     public LineGraphView(Context context){
         super(context);
+        this.points = points;
     }
 
-    public LineGraphView(Context context, AttributeSet attributeSet){
+    public LineGraphView(Context context, AttributeSet attributeSet, Point[] points){
         super(context, attributeSet);
-
+        this.points = points;
     }
 
     public LineGraphView(Context context, double minX, double maxX, double minY, double maxY, Point[] points){
@@ -71,5 +74,21 @@ public class LineGraphView extends View {
         xAxis[1] = y - (getPaddingBottom() + bounds.height()*1.2f);
         xAxis[2] = x - getPaddingRight();
         xAxis[3] = xAxis[1];
+    }
+
+    public void drawLine(Canvas canvas){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        for(int i = 1; i < points.length; i++) {
+            //Convert points[] to pixel values
+            //position = ((point.x / maxX) * (x - paddingLeft - paddingRight) + paddingLeft,
+            // (point.y
+
+            //          Point on line       Length of axis                      Space to the left of line
+            //pos.x = (point.x / maxX) * (x - (padding left + padding right) + padding left
+
+            //     From the top   Point on line       Length of axis                    Space under line
+            //pos.y = y    -    (point.y / maxy) * (y - (padding top + padding bottom) + padding bottom )
+            canvas.drawLine(points[i - 1].x, points[i - 1].y, points[i].x, points[i].y, paint);
+        }
     }
 }
