@@ -10,7 +10,9 @@ public class ExamTable {
     public static final String TABLE_EXAMS = "exams";
     public static final String COL_ID = "exam_id";
     public static final String COL_TITLE = "title";
-    public static final String COL_TIME = "time_revised";
+    public static final String COL_TIME_REVISED = "time_revised";
+    public static final String COL_SUBJECT = "subject";
+    public static final String COL_DATE = "date";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_EXAMS
             + " ("
@@ -18,8 +20,12 @@ public class ExamTable {
             + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_TITLE
             + " TEXT NOT NULL, "
-            + COL_TIME
+            + COL_TIME_REVISED
             + " INTEGER NOT NULL"
+            + COL_SUBJECT
+            + " INTEGER NOT NULL"
+            + COL_DATE
+            + " INTEGER"
             + ");";
 
     public static void onCreate(SQLiteDatabase database){

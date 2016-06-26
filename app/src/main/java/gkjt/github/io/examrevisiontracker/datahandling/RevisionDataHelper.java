@@ -36,26 +36,57 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
         SessionTable.onUpgrade(database, oldVer, newVer);
     }
 
+	/**
+	 * Add new Exam record into database
+	 * @param exam Exam object to insert into the database. Should have a null ID field
+	 * @return ID of the newly created Exam record
+	 */
     public long createExam(Exam exam){
         SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(ExamTable.COL_TIME, exam.getTimeRevised());
-        values.put(ExamTable.COL_TITLE, exam.getTitle());
-
-        return db.insert(ExamTable.TABLE_EXAMS, null, values);
+        return db.insert(ExamTable.TABLE_EXAMS, null, toValues(exam));
     }
 
+	/**
+	 * Add new Session record into database
+	 * @param session Session object to insert into the database. Should have a null ID field
+	 * @return ID of the newly created Session record
+	 */
     public long createSession(Session session){
         SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(SessionTable.COL_TIME, session.getTime());
-        values.put(SessionTable.COL_DURATION, session.getTime());
-
-        return db.insert(SessionTable.TABLE_SESSIONS, null, values);
+        return db.insert(SessionTable.TABLE_SESSIONS, null, toValues(session));
     }
 
+	/**
+	 * Utility method to convert a cursor to an Exam object
+	 * @param curs
+	 * @return Exam object represented by cursor position
+	 */
+	public Exam cursorToExam(Cursor curs){
+		long exId = curs.getLong(curs.getColumnIndex(ExamTable.COL_ID));
+		long exTimeRevised = curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME_REVISED));
+		String exTitle = curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE));
+		long exSub = curs.getLong(curs.getColumnIndex(ExamTable.COL_SUBJECT));
+		long exDate = curs.getLong(curs.getColumnIndex(ExamTable.COL_DATE));
+
+		return new Exam(exId, exTimeRevised, exDate, exSub, exTitle);
+	}
+
+	public Session cursorToSession(Cursor curs){
+		long sID = curs.getLong(curs.getColumnIndex(SessionTable.COL_ID));
+		long sDuration = curs.getLong(curs.getColumnIndex(SessionTable.COL_DURATION));
+		long sTime = curs.getLong(curs.getColumnIndex(SessionTable.COL_TIME));
+		long sExamID = curs.getLong(curs.getColumnIndex(SessionTable.COL_EXAM));
+		long sSubID = curs.getLong(curs.getColumnIndex(SessionTable.COL_SUBJECT));
+
+
+		return new Session(sID, sDuration, sTime, sExamID, sSubID);
+	}
+
+	/**
+	 * Get single exam by ID
+	 * @param id
+	 * @return Exam object with given ID
+	 */
     public Exam getExam(long id){
         SQLiteDatabase db = getReadableDatabase();
 
@@ -65,19 +96,17 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 
         if (curs != null) {
             curs.moveToFirst();
-
-            Exam exam = new Exam();
-
-            exam.setId(curs.getLong(curs.getColumnIndex(ExamTable.COL_ID)));
-            exam.setTimeRevised(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
-            exam.setTitle(curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE)));
-
-            return exam;
+			return cursorToExam(curs);
         }
 
         return null;
     }
 
+	/**
+	 * Get single session by ID
+	 * @param id
+	 * @return Session object with given ID
+	 */
     public Session getSession(long id){
         SQLiteDatabase db = getReadableDatabase();
 
@@ -87,14 +116,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 
         if (curs != null) {
             curs.moveToFirst();
-
-            Session session = new Session();
-
-            session.setId(curs.getLong(curs.getColumnIndex(SessionTable.COL_ID)));
-            session.setTime(curs.getLong(curs.getColumnIndex(SessionTable.COL_TIME)));
-            session.setDuration(curs.getLong(curs.getColumnIndex(SessionTable.COL_DURATION)));
-
-            return session;
+			return cursorToSession(curs);
         }
 
         return null;
@@ -110,13 +132,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 
 		if(curs.moveToFirst()){
 			do{
-				Exam exam = new Exam();
-
-				exam.setId(curs.getLong(curs.getColumnIndex(ExamTable.COL_ID)));
-				exam.setTimeRevised(curs.getLong(curs.getColumnIndex(ExamTable.COL_TIME)));
-				exam.setTitle(curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE)));
-
-				exams.add(exam);
+				exams.add(cursorToExam(curs));
 			}while(curs.moveToNext());
 
 			return exams;
@@ -134,13 +150,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 
 		if(curs.moveToFirst()){
 			do{
-				Session session = new Session();
-
-				session.setId(curs.getLong(curs.getColumnIndex(SessionTable.COL_ID)));
-				session.setDuration(curs.getLong(curs.getColumnIndex(SessionTable.COL_DURATION)));
-				session.setTime(curs.getLong(curs.getColumnIndex(SessionTable.COL_TIME)));
-
-				sessions.add(session);
+				sessions.add(cursorToSession(curs));
 			}while(curs.moveToNext());
 
 			return sessions;
@@ -152,10 +162,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 	public int updateExam(Exam exam){
 		SQLiteDatabase db = getWritableDatabase();
 
-		ContentValues vals = new ContentValues();
-
-		vals.put(ExamTable.COL_TITLE, exam.getTitle());
-		vals.put(ExamTable.COL_TIME, exam.getTimeRevised());
+		ContentValues vals = toValues(exam);
 
 		return db.update(
 				ExamTable.TABLE_EXAMS,
@@ -168,10 +175,7 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 	public int updateSession(Session session){
 		SQLiteDatabase db = getWritableDatabase();
 
-		ContentValues vals = new ContentValues();
-
-		vals.put(SessionTable.COL_DURATION, session.getDuration());
-		vals.put(SessionTable.COL_TIME, session.getTime());
+		ContentValues vals = toValues(session);
 
 		return db.update(
 				SessionTable.TABLE_SESSIONS,
@@ -206,6 +210,32 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 		if(db!=null && db.isOpen()){
 			db.close();
 		}
+	}
+
+	public ContentValues toValues(Session session){
+		ContentValues vals = new ContentValues();
+		if(session.hasID()){
+			vals.put(SessionTable.COL_ID, session.getId());
+		}
+		vals.put(SessionTable.COL_EXAM, session.getExamID());
+		vals.put(SessionTable.COL_DURATION, session.getDuration());
+		vals.put(SessionTable.COL_TIME, session.getTime());
+		vals.put(SessionTable.COL_SUBJECT, session.getSubjectID());
+
+		return vals;
+	}
+
+	public ContentValues toValues(Exam exam){
+		ContentValues vals = new ContentValues();
+		if(exam.hasID()){
+			vals.put(ExamTable.COL_ID, exam.getId());
+		}
+		vals.put(ExamTable.COL_DATE, exam.getDate());
+		vals.put(ExamTable.COL_TIME_REVISED, exam.getTimeRevised());
+		vals.put(ExamTable.COL_TITLE, exam.getTitle());
+		vals.put(ExamTable.COL_SUBJECT, exam.getSubjectID());
+
+		return vals;
 	}
 
 }

@@ -1,21 +1,32 @@
 package gkjt.github.io.examrevisiontracker;
 
+import android.content.ContentValues;
+
+import gkjt.github.io.examrevisiontracker.datahandling.ExamTable;
+
 /**
  * Created by GTucker on 31/08/2015.
  */
 public class Exam {
-    private long _id, _timeRevised;
-    private String _title;
+    private long _id;
+    private long _timeRevised;
+    private long _date;
+    private long _subjectID;
+    private String _name;
+
+
 
     public Exam(){}
 
-    public Exam(long id, long time, String title){
-        this._id = id;
-        this._timeRevised = time;
-        this._title = title;
-    }
+	public Exam(long _id, long _timeRevised, long _date, long _subjectID, String _name) {
+		this._id = _id;
+		this._timeRevised = _timeRevised;
+		this._date = _date;
+		this._subjectID = _subjectID;
+		this._name = _name;
+	}
 
-    public void setId(long id){
+	public void setId(long id){
         _id = id;
     }
 
@@ -24,7 +35,7 @@ public class Exam {
     }
 
     public void setTitle(String title){
-        _title = title;
+        _name = title;
     }
 
     public long getId(){
@@ -36,6 +47,26 @@ public class Exam {
     }
 
     public String getTitle(){
-        return _title;
+        return _name;
     }
+
+    public long getDate() {
+        return _date;
+    }
+
+    public void setDate(long _date) {
+        this._date = _date;
+    }
+
+    public long getSubjectID() {
+        return _subjectID;
+    }
+
+    public void setSubjectID(long _subjectID) {
+        this._subjectID = _subjectID;
+    }
+
+    public boolean hasID(){
+		return ((Long) _id) != null;
+	}
 }

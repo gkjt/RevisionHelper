@@ -98,4 +98,6 @@ public class MainActivity extends AppCompatActivity {
         hoursPerSubjectChart.invalidate();
         //init line chart
     }
+
+
 }

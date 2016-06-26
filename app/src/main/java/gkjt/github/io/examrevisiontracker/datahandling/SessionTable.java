@@ -12,6 +12,7 @@ public class SessionTable {
     public static final String COL_DURATION = "duration";
     public static final String COL_TIME = "time";
     public static final String COL_EXAM = "exam_id";
+    public static final String COL_SUBJECT = "subject_id";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_SESSIONS
             + " ("
@@ -22,6 +23,8 @@ public class SessionTable {
             + COL_TIME
             + " INTEGER NOT NULL"
             + COL_EXAM
+            + " INTEGER NOT NULL"
+            + COL_SUBJECT
             + " INTEGER NOT NULL"
             + ");";
 
