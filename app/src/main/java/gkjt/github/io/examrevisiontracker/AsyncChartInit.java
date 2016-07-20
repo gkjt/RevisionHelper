@@ -30,14 +30,20 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 		Calendar lastWeek = new GregorianCalendar();
 		lastWeek.set(Calendar.HOUR_OF_DAY, 0);
 		lastWeek.add(Calendar.DAY_OF_YEAR, -7);
-		List<Session> sessions = helper.getSessionsAfter(new Date());
-		int[] hoursPerDay = new int[7];
-		for(Session session : sessions){
+		List<Session> sessionsLastWeek = helper.getSessionsAfter(lastWeek.getTime());
 
+		int[] hoursPerDay = new int[7];
+		int i=0;
+		for(Session session : sessionsLastWeek){
+			if(session.getTime() > lastWeek.getTimeInMillis()){
+				i++;
+			}
+			//TODO: Change session duration to be stored in minutes
+			hoursPerDay[i] += session.getDuration() / (60*60*1000);
 		}
 
 		ArrayList<Entry> valsDay = new ArrayList<Entry>();
-		for()
+		//for()
 
 		return null;
 	}

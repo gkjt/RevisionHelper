@@ -17,7 +17,7 @@ import gkjt.github.io.examrevisiontracker.Session;
  * Created by GTucker on 30/08/2015.
  */
 public class RevisionDataHelper extends SQLiteOpenHelper {
-
+	//TODO:Rename columns like time revised to be more explicit
     private static final String DATABASE_NAME = "revision_database";
     private static final int DATABASE_VERSION = 1;
 
@@ -164,7 +164,9 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		List<Session> sessions = new ArrayList<Session>();
 
-		String select = "SELECT * FROM " + SessionTable.TABLE_SESSIONS + " WHERE " + SessionTable.COL_TIME + " > " + date.getTime();
+		String select = "SELECT * FROM " + SessionTable.TABLE_SESSIONS + " WHERE "
+				+ SessionTable.COL_TIME + " > " + date.getTime()
+				+ " ORDER BY " + SessionTable.COL_TIME;
 		Cursor curs = db.rawQuery(select, null);
 
 		if(curs.moveToFirst()){
