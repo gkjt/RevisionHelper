@@ -99,5 +99,4 @@ public class MainActivity extends AppCompatActivity {
         //init line chart
     }
 
-
 }

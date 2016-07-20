@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import gkjt.github.io.examrevisiontracker.Exam;
@@ -158,6 +159,24 @@ public class RevisionDataHelper extends SQLiteOpenHelper {
 
 		return null;
     }
+
+	public List<Session> getSessionsAfter(Date date){
+		SQLiteDatabase db = getReadableDatabase();
+		List<Session> sessions = new ArrayList<Session>();
+
+		String select = "SELECT * FROM " + SessionTable.TABLE_SESSIONS + " WHERE " + SessionTable.COL_TIME + " > " + date.getTime();
+		Cursor curs = db.rawQuery(select, null);
+
+		if(curs.moveToFirst()){
+			do{
+				sessions.add(cursorToSession(curs));
+			}while(curs.moveToNext());
+
+			return sessions;
+		}
+
+		return null;
+	}
 
 	public int updateExam(Exam exam){
 		SQLiteDatabase db = getWritableDatabase();
