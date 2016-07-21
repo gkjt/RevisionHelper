@@ -37,9 +37,11 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 		for(Session session : sessionsLastWeek){
 			if(session.getTime() > lastWeek.getTimeInMillis()){
 				i++;
+				lastWeek.add(Calendar.DAY_OF_YEAR,1);
 			}
 			//TODO: Change session duration to be stored in minutes
 			hoursPerDay[i] += session.getDuration() / (60*60*1000);
+
 		}
 
 		ArrayList<Entry> valsDay = new ArrayList<Entry>();
