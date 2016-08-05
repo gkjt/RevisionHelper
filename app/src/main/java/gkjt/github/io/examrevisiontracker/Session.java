@@ -25,9 +25,7 @@ public class Session {
     public Session(){}
 
 	public Long getId(){
-        if((Long) _id != null)
-            return _id;
-        return null;
+        return _id;
     }
 
     public Long getTime(){

@@ -18,7 +18,9 @@ import java.util.Map;
 
 import javax.security.auth.Subject;
 
+import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
 import gkjt.github.io.examrevisiontracker.datahandling.RevisionDataHelper;
+import gkjt.github.io.examrevisiontracker.datahandling.SessionDataHelper;
 import gkjt.github.io.examrevisiontracker.datahandling.SessionTable;
 
 /**
@@ -33,13 +35,14 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 
 	@Override
 	protected Void doInBackground(Void ... a){
-		RevisionDataHelper helper = new RevisionDataHelper(context);
-		List<Exam> exams = helper.getExams();
+		ExamDataHelper examHelper = new ExamDataHelper(context);
+		SessionDataHelper sessionHelper = new SessionDataHelper(context);
+		List<Exam> exams = examHelper.getExams();
 		Calendar lastWeek = new GregorianCalendar();
 		lastWeek.set(Calendar.HOUR_OF_DAY, 0);
 		lastWeek.set(Calendar.MINUTE, 0);
 		lastWeek.add(Calendar.DAY_OF_YEAR, -7);
-		List<Session> sessionsLastWeek = helper.getSessionsAfter(lastWeek.getTime());
+		List<Session> sessionsLastWeek = sessionHelper.getSessionsAfter(lastWeek.getTime());
 
 		int[] hoursPerDay = new int[7];
 		String[] daysLabels = new String[7];
@@ -65,7 +68,7 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 
 
 		HashMap<Subject, Integer> hoursPerSubject = new HashMap<>();
-		helper.getSubjects
+		//helper.getSubjects
 		//for()
 
 		return null;
