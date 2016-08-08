@@ -6,6 +6,7 @@ package gkjt.github.io.examrevisiontracker;
 public class Subject {
     long id;
     String title;
+    int timeRevised;
 
     public Subject(long id, String title) {
         this.id = id;
@@ -18,6 +19,14 @@ public class Subject {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getTimeRevised() {
+        return timeRevised;
+    }
+
+    public void setTimeRevised(int timeRevised) {
+        this.timeRevised = timeRevised;
     }
 
     public long getId() {

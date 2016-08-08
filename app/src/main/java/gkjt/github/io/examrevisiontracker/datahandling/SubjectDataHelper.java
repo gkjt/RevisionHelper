@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import gkjt.github.io.examrevisiontracker.Session;
+import java.util.ArrayList;
+import java.util.List;
+
 import gkjt.github.io.examrevisiontracker.Subject;
 
 /**
@@ -19,6 +21,39 @@ public class SubjectDataHelper extends RevisionDataHelper{
 	public long createSubject(Subject subject){
 		SQLiteDatabase db = getWritableDatabase();
 		return db.insert(SessionTable.TABLE_SESSIONS, null, toValues(subject));
+	}
+
+	public List<Subject> getSubjects(){
+		List<Subject> subs = new ArrayList<>();
+		SQLiteDatabase db = getReadableDatabase();
+		String select = "SELECT * FROM " + SubjectTable.TABLE_SUBJECTS;
+		Cursor curs = db.rawQuery(select, null);
+		if(curs.moveToFirst()){
+			do{
+				subs.add(cursorToSubject(curs));
+			} while(curs.moveToNext());
+			return subs;
+		}
+		return null;
+	}
+
+	public int updateSubject(Subject sub){
+		SQLiteDatabase db = getWritableDatabase();
+		return db.update(SubjectTable.TABLE_SUBJECTS,
+				toValues(sub),
+				SubjectTable.COL_ID + " = ?",
+				new String[]{String.valueOf(sub.getId())});
+
+	}
+
+	public void deleteExam(long subId){
+		SQLiteDatabase db = getWritableDatabase();
+
+		db.delete(
+				SubjectTable.TABLE_SUBJECTS,
+				SubjectTable.COL_ID + " = ?",
+				new String[]{String.valueOf(subId)}
+		);
 	}
 
 	public Subject cursorToSubject(Cursor cursor){

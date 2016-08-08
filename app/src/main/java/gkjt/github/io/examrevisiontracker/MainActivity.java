@@ -19,10 +19,12 @@ import com.github.mikephil.charting.data.PieDataSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
 import gkjt.github.io.examrevisiontracker.datahandling.RevisionDataHelper;
 
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initCharts(){
-        RevisionDataHelper dataSource = new RevisionDataHelper(this);
+        ExamDataHelper examDataSource = new ExamDataHelper(this);
         //Init pie chart
         PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
-        List<Exam> exams = dataSource.getExams();
+        List<Exam> exams = examDataSource.getExams();
         ArrayList<Entry> hoursEntries = new ArrayList<Entry>();
         ArrayList<String> hoursNames = new ArrayList<String>();
         int i = 0;
