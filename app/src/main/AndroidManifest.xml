@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gkjt.github.io.examrevisiontracker" >
+<manifest package="gkjt.github.io.examrevisiontracker"
+		  xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme.NoActionBar">
+		<activity
+			android:name=".MainActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".RevisionTimerScreenActivity"
-            android:label="@string/title_activity_revision_timer_screen" >
-        </activity>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".RevisionTimerScreenActivity"
+			android:label="@string/title_activity_revision_timer_screen">
+		</activity>
 
-        <service
-            android:name=".RevisionTrackerBackgroundService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
+		<service
+			android:name=".async.RevisionTrackerBackgroundService"
+			android:enabled="true"
+			android:exported="true">
+		</service>
 
-    </application>
+		<activity
+			android:name=".SubjectListActivity"
+			android:label="@string/title_activity_subject_list">
+		</activity>
+		<activity
+			android:name=".ExamListActivity"
+			android:label="@string/title_activity_exam_list"
+			android:theme="@style/AppTheme.NoActionBar">
+		</activity>
+	</application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,8 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.TextView;
+
+import gkjt.github.io.examrevisiontracker.async.RevisionTrackerBackgroundService;
 
 
 public class RevisionTimerScreenActivity extends AppCompatActivity implements RevisionTrackerBackgroundService.TimerHandler, View.OnClickListener {
@@ -114,7 +114,7 @@ public class RevisionTimerScreenActivity extends AppCompatActivity implements Re
         fade = new AlphaAnimation(1.0f, 0.4f);
         fade.setRepeatCount(Animation.INFINITE);
         fade.setRepeatMode(Animation.REVERSE);
-        fade.setDuration(2000l);
+        fade.setDuration(2000L);
         fade.start();
         timeRemainingView.setAnimation(fade);
 
@@ -147,7 +147,7 @@ public class RevisionTimerScreenActivity extends AppCompatActivity implements Re
     public void onTimerTick(long timeRemaining){
         int minutes = (int) (timeRemaining / (60*1000)) + 1;
         TextView revisionTimer = (TextView)findViewById(R.id.revision_timer_countdown);
-        revisionTimer.setText(new Integer(minutes).toString());
+        revisionTimer.setText(String.format("%d", minutes));
     }
 
     private void timerStop(){

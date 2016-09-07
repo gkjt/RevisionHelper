@@ -1,17 +1,8 @@
 package gkjt.github.io.examrevisiontracker.datahandling;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import gkjt.github.io.examrevisiontracker.Exam;
-import gkjt.github.io.examrevisiontracker.Session;
 
 /**
  * Created by GTucker on 30/08/2015.

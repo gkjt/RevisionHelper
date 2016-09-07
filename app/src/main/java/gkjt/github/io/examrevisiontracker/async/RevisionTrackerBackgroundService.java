@@ -1,4 +1,4 @@
-package gkjt.github.io.examrevisiontracker;
+package gkjt.github.io.examrevisiontracker.async;
 
 import android.app.Service;
 import android.content.Intent;
@@ -19,7 +19,7 @@ public class RevisionTrackerBackgroundService extends Service {
     }
 
     public class ServiceBinder extends Binder{
-        RevisionTrackerBackgroundService getService(){
+        public RevisionTrackerBackgroundService getService(){
             return RevisionTrackerBackgroundService.this;
         }
     }

@@ -8,7 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import gkjt.github.io.examrevisiontracker.Exam;
+import gkjt.github.io.examrevisiontracker.datastructures.Exam;
+import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 
 /**
  * Created by GTucker on 03/08/2016.
@@ -41,8 +42,9 @@ public class ExamDataHelper extends RevisionDataHelper {
 		String exTitle = curs.getString(curs.getColumnIndex(ExamTable.COL_TITLE));
 		long exSub = curs.getLong(curs.getColumnIndex(ExamTable.COL_SUBJECT));
 		long exDate = curs.getLong(curs.getColumnIndex(ExamTable.COL_DATE));
+		short exPercent = curs.getShort(curs.getColumnIndex(ExamTable.COL_GRADE_PERCENTAGE));
 
-		return new Exam(exId, exTimeRevised, exDate, exSub, exTitle);
+		return new Exam(exId, exTimeRevised, exDate, exSub, exTitle, exPercent);
 	}
 
 
@@ -84,7 +86,32 @@ public class ExamDataHelper extends RevisionDataHelper {
 			return exams;
 		}
 
-		return null;
+		return new ArrayList<Exam>();
+	}
+
+	public List<Exam> getExamsFromSubject(Subject constraint){
+		List<Exam> exams = new ArrayList<Exam>();
+
+		SQLiteDatabase db = getReadableDatabase();
+
+		String select = "SELECT * FROM " + ExamTable.TABLE_EXAMS + " WHERE " + ExamTable.COL_SUBJECT + " = " + constraint.getId();
+		Cursor curs = db.rawQuery(select, null);
+
+		if(curs.moveToFirst()){
+			long totalTime = 0;
+			do{
+				Exam e = cursorToExam(curs);
+				totalTime += e.getTimeRevised();
+				exams.add(e);
+			}while(curs.moveToNext());
+
+			for(Exam exam : exams){
+				exam.setPercentageTime(((Long)(exam.getTimeRevised() / totalTime)).shortValue());
+			}
+			return exams;
+		}
+
+		return new ArrayList<Exam>();
 	}
 
 	public int updateExam(Exam exam){
@@ -120,6 +147,7 @@ public class ExamDataHelper extends RevisionDataHelper {
 		vals.put(ExamTable.COL_TIME_REVISED, exam.getTimeRevised());
 		vals.put(ExamTable.COL_TITLE, exam.getTitle());
 		vals.put(ExamTable.COL_SUBJECT, exam.getSubjectID());
+		vals.put(ExamTable.COL_GRADE_PERCENTAGE, exam.getPercentageGrade());
 
 		return vals;
 	}

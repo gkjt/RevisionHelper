@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import gkjt.github.io.examrevisiontracker.Subject;
+import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 
 /**
  * Created by GTucker on 03/08/2016.
@@ -32,9 +33,15 @@ public class SubjectDataHelper extends RevisionDataHelper{
 			do{
 				subs.add(cursorToSubject(curs));
 			} while(curs.moveToNext());
+			Log.d("examrevisiontracker", "Returned non test subs");
+			return subs;
+		} else {
+			subs.add(new Subject(0l, "Test Subject Alpha"));
+			subs.add(new Subject(0l, "Test Subject Beta"));
+			Log.d("examrevisiontracker", "Returned test subs");
 			return subs;
 		}
-		return null;
+		//return new ArrayList<Subject>();
 	}
 
 	public int updateSubject(Subject sub){

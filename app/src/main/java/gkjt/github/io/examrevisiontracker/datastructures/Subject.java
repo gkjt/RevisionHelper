@@ -1,9 +1,11 @@
-package gkjt.github.io.examrevisiontracker;
+package gkjt.github.io.examrevisiontracker.datastructures;
+
+import java.io.Serializable;
 
 /**
  * Created by User on 01/08/2016.
  */
-public class Subject {
+public class Subject implements Serializable {
     long id;
     String title;
     int timeRevised;

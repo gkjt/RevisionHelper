@@ -21,11 +21,11 @@ public class SessionTable {
             + COL_DURATION
             + " INTEGER NOT NULL, "
             + COL_TIME
-            + " INTEGER NOT NULL"
+            + " INTEGER NOT NULL, "
             + COL_EXAM
-            + " INTEGER NOT NULL"
+            + " INTEGER NOT NULL, "
             + COL_SUBJECT
-            + " INTEGER NOT NULL"
+            + " INTEGER NOT NULL "
             + ");";
 
     public static void onCreate(SQLiteDatabase database){

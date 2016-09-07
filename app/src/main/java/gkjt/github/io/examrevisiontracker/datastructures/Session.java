@@ -1,13 +1,15 @@
-package gkjt.github.io.examrevisiontracker;
+package gkjt.github.io.examrevisiontracker.datastructures;
 
 import android.content.ContentValues;
+
+import java.io.Serializable;
 
 import gkjt.github.io.examrevisiontracker.datahandling.SessionTable;
 
 /**
  * Created by GTucker on 31/08/2015.
  */
-public class Session {
+public class Session implements Serializable {
     private long _id;
     private long _duration;
     private long _time;

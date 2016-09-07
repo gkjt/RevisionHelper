@@ -1,27 +1,27 @@
 package gkjt.github.io.examrevisiontracker;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gkjt.github.io.examrevisiontracker.async.AsyncChartInit;
 import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
-import gkjt.github.io.examrevisiontracker.datahandling.RevisionDataHelper;
-
+import gkjt.github.io.examrevisiontracker.datastructures.Exam;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,33 +29,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+        }
+        startActivity(new Intent(this, SubjectListActivity.class));
         setContentView(R.layout.activity_main);
-        //PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
-
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
         LineChart hoursPerDayChart = (LineChart) findViewById(R.id.hoursPerDay);
-        ArrayList<Entry> valsDay = new ArrayList<Entry>();
-        valsDay.add(new Entry(2, 0));
-        valsDay.add(new Entry(7, 1));
-        valsDay.add(new Entry(1, 2));
-        valsDay.add(new Entry(9, 3));
-        valsDay.add(new Entry(2, 4));
-        valsDay.add(new Entry(6, 5));
-        valsDay.add(new Entry(5, 6));
-        LineDataSet setDay = new LineDataSet(valsDay, "Hours Revised Per Day");
-        setDay.setAxisDependency(YAxis.AxisDependency.LEFT);
+        hoursPerSubjectChart.setNoDataTextDescription("You haven't revised yet");
+        hoursPerDayChart.setNoDataTextDescription("You haven't revised yet");
+        hoursPerSubjectChart.setUsePercentValues(true);
+        hoursPerSubjectChart.animateX(500, Easing.EasingOption.EaseInCirc);
+        new AsyncChartInit(this, hoursPerDayChart, hoursPerSubjectChart).execute();
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("M"); xVals.add("T"); xVals.add("W"); xVals.add("T");
-        xVals.add("F"); xVals.add("S"); xVals.add("S");
-        LineData dataDays = new LineData(xVals, setDay);
-        hoursPerDayChart.setData(dataDays);
 
-        hoursPerDayChart.setDescription("Hours Revised per Day");
-        hoursPerDayChart.notifyDataSetChanged();
-        hoursPerDayChart.invalidate();
-
-        //startActivity(new Intent(this, RevisionTimerScreenActivity.class));
     }
 
 
@@ -79,26 +69,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initCharts(){
-        ExamDataHelper examDataSource = new ExamDataHelper(this);
-        //Init pie chart
-        PieChart hoursPerSubjectChart = (PieChart) findViewById(R.id.hoursPerSubject);
-        List<Exam> exams = examDataSource.getExams();
-        ArrayList<Entry> hoursEntries = new ArrayList<Entry>();
-        ArrayList<String> hoursNames = new ArrayList<String>();
-        int i = 0;
-        for(Exam e : exams){
-            hoursEntries.add(new Entry(e.getTimeRevised(), i++));
-            hoursNames.add(e.getTitle());
-        }
-        PieDataSet hoursSet = new PieDataSet(hoursEntries, "Hours revised Per Subject");
-        PieData hoursData = new PieData(hoursNames, hoursSet);
-        hoursPerSubjectChart.setData(hoursData);
-        hoursPerSubjectChart.notifyDataSetChanged();
-        hoursPerSubjectChart.invalidate();
-        //init line chart
     }
 
 }

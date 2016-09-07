@@ -1,4 +1,4 @@
-package gkjt.github.io.examrevisiontracker;
+package gkjt.github.io.examrevisiontracker.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,12 +21,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import gkjt.github.io.examrevisiontracker.datastructures.Exam;
+import gkjt.github.io.examrevisiontracker.R;
+import gkjt.github.io.examrevisiontracker.datastructures.Session;
+import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
-import gkjt.github.io.examrevisiontracker.datahandling.RevisionDataHelper;
 import gkjt.github.io.examrevisiontracker.datahandling.SessionDataHelper;
-import gkjt.github.io.examrevisiontracker.datahandling.SessionTable;
 import gkjt.github.io.examrevisiontracker.datahandling.SubjectDataHelper;
 
 /**
@@ -40,7 +41,7 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 	PieData subsData;
 
 
-	AsyncChartInit(Context context, LineChart lineChart, PieChart pieChart){
+	public AsyncChartInit(Context context, LineChart lineChart, PieChart pieChart){
 		this.context = context;
 		this.daysChart = lineChart;
 		this.subsChart = pieChart;
@@ -50,13 +51,17 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 	protected void onPostExecute(Void v){
 		daysChart.setData(daysData);
 		daysChart.notifyDataSetChanged();
+		daysChart.invalidate();
 		subsChart.setData(subsData);
+		subsChart.highlightValues(null);
 		subsChart.notifyDataSetChanged();
+		daysChart.invalidate();
 	}
 
 	@Override
 	protected Void doInBackground(Void ... a){
 		initHoursPerDayLine();
+		initHoursPerSubjectPie();
 		return null;
 	}
 
@@ -72,19 +77,26 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 
 		int[] hoursPerDay = new int[7];
 		String[] daysLabels = new String[7];
+
 		int i=0;
-		//TODO: Check ordering
-		for(Session session : sessionsLastWeek){
-			if(session.getTime() > lastWeek.getTimeInMillis()){
-				i++;
+		if(sessionsLastWeek.isEmpty()){
+			for(; i < hoursPerDay.length; i++){
+				hoursPerDay[i] = (i*i+1)%10;
 				daysLabels[i] = getDayLabel(lastWeek.getTime());
-				lastWeek.add(Calendar.DAY_OF_YEAR,1);
 			}
-			//TODO: Change session duration to be stored in minutes
-			hoursPerDay[i] += session.getDuration() / (60*60*1000);
+		} else {
+			//TODO: Check ordering
+			for (Session session : sessionsLastWeek) {
+				if (session.getTime() > lastWeek.getTimeInMillis()) {
+					i++;
+					daysLabels[i] = getDayLabel(lastWeek.getTime());
+					lastWeek.add(Calendar.DAY_OF_YEAR, 1);
+				}
+				//TODO: Change session duration to be stored in minutes
+				hoursPerDay[i] += session.getDuration() / (60 * 60 * 1000);
 
+			}
 		}
-
 		ArrayList<Entry> valsDay = new ArrayList<Entry>();
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, -7);
@@ -94,23 +106,36 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 
 		LineDataSet daysDataSet = new LineDataSet(valsDay, "Hours completed over the last 7 days");
 		daysDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-		LineData daysData = new LineData(daysLabels, daysDataSet);
-
-
+		daysDataSet.setColors(new int[]{R.color.days});
+		daysData = new LineData(daysLabels, daysDataSet);
 	}
 
 	private void initHoursPerSubjectPie(){
 		HashMap<Subject, Integer> hoursPerSubject = new HashMap<>();
 		SubjectDataHelper subHelper = new SubjectDataHelper(context);
 		List<Entry> pieVals = new ArrayList<>();
+		List<String> labels = new ArrayList<>();
 		int i = 0;
-		ArrayList<String> labels = new ArrayList<>();
-		for(Subject sub : subHelper.getSubjects()){
-			pieVals.add(new Entry(sub.getTimeRevised(), i));
+		List<Subject> subjects = subHelper.getSubjects();
+		if(!subjects.isEmpty()) {
+			for (Subject sub : subjects) {
+				pieVals.add(new Entry(sub.getTimeRevised(), i++));
+				labels.add(sub.getTitle());
+			}
+		} else {
+			pieVals.add(new Entry(30, i++));
+			labels.add("Maffs");
+			pieVals.add(new Entry(20, i++));
+			labels.add("psyence");
+			pieVals.add(new Entry(5, i++));
+			labels.add("wordz");
 		}
+		PieDataSet pieDataSet = new PieDataSet(pieVals, "Hours revised per Subject");
+		pieDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+		pieDataSet.setColors(new int[]{R.color.subject_1, R.color.subject_2, R.color.subject_3, R.color.subject_4});
+		pieDataSet.setSliceSpace(5f);
 
-
-
+		subsData = new PieData(labels, pieDataSet);
 	}
 
 	private String getDayLabel(Date date){

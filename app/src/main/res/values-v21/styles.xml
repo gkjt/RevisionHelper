@@ -1,12 +1,20 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    @Theme
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primaryDark</item>
-        <item name="android:colorAccent">@color/accent</item>
-        <item name="android:colorBackground">@color/background</item>
-    </style>
+	<!-- Base application theme. -->
+	@Theme
+
+	<style name="AppTheme" parent="Theme.AppCompat.Light">
+		<item name="android:colorPrimary">@color/primary</item>
+		<item name="android:colorPrimaryDark">@color/primary_dark</item>
+		<item name="android:colorAccent">@color/accent</item>
+		<item name="android:colorBackground">@color/background</item>
+	</style>
+
+	<style name="AppTheme.NoActionBar">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
 
 </resources>

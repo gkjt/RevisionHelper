@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import gkjt.github.io.examrevisiontracker.Session;
+import gkjt.github.io.examrevisiontracker.datastructures.Session;
 
 /**
  * Created by GTucker on 03/08/2016.
@@ -96,7 +96,7 @@ public class SessionDataHelper extends RevisionDataHelper{
 			return sessions;
 		}
 
-		return null;
+		return new ArrayList<Session>();
 	}
 
 	public int updateSession(Session session){
