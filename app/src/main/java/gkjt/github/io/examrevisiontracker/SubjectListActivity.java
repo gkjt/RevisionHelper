@@ -1,35 +1,30 @@
 package gkjt.github.io.examrevisiontracker;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.SimpleCursorAdapter;
+import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
 import gkjt.github.io.examrevisiontracker.datastructures.Exam;
 import gkjt.github.io.examrevisiontracker.datastructures.Subject;
-import gkjt.github.io.examrevisiontracker.views.ExamListAdapter;
 import gkjt.github.io.examrevisiontracker.views.ExamListFragment;
-import gkjt.github.io.examrevisiontracker.views.SubjectListAdapter;
 import gkjt.github.io.examrevisiontracker.views.SubjectListFragment;
 
 public class SubjectListActivity extends AppCompatActivity implements SubjectListFragment.SubjectSelectedListener {
 	public static final String EXAM_BUNDLE_NAME = "gkjt.github.io.EXTRA_EXAM_LIST_BUNDLE";
 	public static final String EXAM_BUNDLE_LIST_NAME = "gkjt.github.io.EXTRA_EXAM_LIST";
 	SubjectListFragment subList;
-
+	FloatingActionButton addButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +37,8 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				//TODO: Make this open subject/exam add dialog
-
-			}
-		});
+		addButton = (FloatingActionButton) findViewById(R.id.add_fab);
+		addButton.setOnClickListener(new AddButtonListener());
 
 	}
 
@@ -82,6 +71,36 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 			b.putSerializable(EXAM_BUNDLE_LIST_NAME, exams);
 			intent.putExtra(EXAM_BUNDLE_NAME, b);
 			startActivity(intent);
+		}
+	}
+
+	private void showButtonMenu(){
+
+		FloatingActionButton addSubjectButton = (FloatingActionButton) findViewById(R.id.add_subject_fab);
+		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) addSubjectButton.getLayoutParams();
+		layoutParams.rightMargin += addButton.getWidth() * 0.43;
+		layoutParams.bottomMargin += addButton.getHeight() * 1.25;
+		addSubjectButton.setLayoutParams(layoutParams);
+		addSubjectButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_subject_add_show));
+		addSubjectButton.setVisibility(View.VISIBLE);
+		addSubjectButton.setClickable(true);
+		
+		FloatingActionButton addExamButton = (FloatingActionButton) findViewById(R.id.add_exam_fab);
+		layoutParams = (CoordinatorLayout.LayoutParams) addExamButton.getLayoutParams();
+		layoutParams.rightMargin += addButton.getWidth() * 1.3;
+		layoutParams.bottomMargin += addButton.getHeight() * 0.25;
+		addExamButton.setLayoutParams(layoutParams);
+		addExamButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_exam_add_show));
+		addExamButton.setVisibility(View.VISIBLE);
+		addExamButton.setClickable(true);
+
+	}
+
+	public class AddButtonListener implements FloatingActionButton.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			showButtonMenu();
 		}
 	}
 }
