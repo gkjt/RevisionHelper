@@ -29,12 +29,14 @@
 
 		<activity
 			android:name=".SubjectListActivity"
-			android:label="@string/title_activity_subject_list">
+			android:label="@string/title_activity_subject_list"
+			android:parentActivityName=".MainActivity">
 		</activity>
 		<activity
 			android:name=".ExamListActivity"
 			android:label="@string/title_activity_exam_list"
-			android:theme="@style/AppTheme.NoActionBar">
+			android:theme="@style/AppTheme.NoActionBar"
+			android:parentActivityName=".SubjectListActivity">
 		</activity>
 	</application>
 

@@ -20,11 +20,13 @@ import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
 import gkjt.github.io.examrevisiontracker.datastructures.Exam;
 import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 import gkjt.github.io.examrevisiontracker.views.ExamListFragment;
+import gkjt.github.io.examrevisiontracker.views.SubjectDialogFragment;
 import gkjt.github.io.examrevisiontracker.views.SubjectListFragment;
 
 public class SubjectListActivity extends AppCompatActivity implements SubjectListFragment.SubjectSelectedListener {
 	public static final String EXAM_BUNDLE_NAME = "gkjt.github.io.EXTRA_EXAM_LIST_BUNDLE";
 	public static final String EXAM_BUNDLE_LIST_NAME = "gkjt.github.io.EXTRA_EXAM_LIST";
+	protected static final String SUBJECT_DIALOG_TAG = "SubjectDialog";
 	SubjectListFragment subList;
 	FloatingActionButton addButton;
 	boolean fabMenuOpen = false;
@@ -132,8 +134,14 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 				}
 			}
 			else {
-				//TODO:Show subject add dialog
+				showNewSubjectDialog();
 			}
 		}
+
+		private void showNewSubjectDialog(){
+			SubjectDialogFragment.newInstance().show(getFragmentManager(), SUBJECT_DIALOG_TAG);
+		}
 	}
+
+
 }

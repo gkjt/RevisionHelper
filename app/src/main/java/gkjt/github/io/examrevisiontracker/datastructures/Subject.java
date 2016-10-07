@@ -1,5 +1,7 @@
 package gkjt.github.io.examrevisiontracker.datastructures;
 
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 
 /**
@@ -9,6 +11,10 @@ public class Subject implements Serializable {
     long id;
     String title;
     int timeRevised;
+
+    public Subject(String title) {
+        this.title = title;
+    }
 
     public Subject(long id, String title) {
         this.id = id;

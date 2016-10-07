@@ -18,5 +18,9 @@
 	<string name="subject_list_empty">No subjects yet! Add one with the button with the +</string>
 	<string name="title_activity_exam_list">Exams</string>
 	<string name="subject_title_hint">Subject Name</string>
+	<string name="subject_dialog_title">Set Subject Name</string>
+
+	<string name="dialog_confirm">OK</string>
+	<string name="dialog_cancel">Cancel</string>
 
 </resources>
