@@ -28,11 +28,31 @@
 
 
 	<android.support.design.widget.FloatingActionButton
-		android:id="@+id/fab"
+		android:id="@+id/add_fab"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/fab_margin"
 		android:src="@drawable/ic_add"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/add_exam_fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="@dimen/fab_menu_hidden_margin"
+		android:src="@drawable/ic_exam_paper"
+		app:backgroundTint="@color/primary"
+		android:visibility="invisible"
+		app:fabSize="mini"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/add_subject_fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="@dimen/fab_menu_hidden_margin"
+		android:src="@drawable/ic_school_white"
+		android:visibility="invisible"
+		app:backgroundTint="@color/primary"
+		app:fabSize="mini" />
 
 </android.support.design.widget.CoordinatorLayout>

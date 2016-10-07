@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 
+import com.github.mikephil.charting.data.PieDataSet;
+
 import java.util.ArrayList;
 
 import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
@@ -25,6 +27,7 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 	public static final String EXAM_BUNDLE_LIST_NAME = "gkjt.github.io.EXTRA_EXAM_LIST";
 	SubjectListFragment subList;
 	FloatingActionButton addButton;
+	boolean fabMenuOpen = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,6 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 	}
 
 	private void showButtonMenu(){
-
 		FloatingActionButton addSubjectButton = (FloatingActionButton) findViewById(R.id.add_subject_fab);
 		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) addSubjectButton.getLayoutParams();
 		layoutParams.rightMargin += addButton.getWidth() * 0.43;
@@ -93,14 +95,45 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 		addExamButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_exam_add_show));
 		addExamButton.setVisibility(View.VISIBLE);
 		addExamButton.setClickable(true);
+	}
 
+	private void hideButtonMenu(){
+		FloatingActionButton addSubjectButton = (FloatingActionButton) findViewById(R.id.add_subject_fab);
+		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) addSubjectButton.getLayoutParams();
+		layoutParams.rightMargin -= addButton.getWidth() * 0.43;
+		layoutParams.bottomMargin -= addButton.getHeight() * 1.25;
+		addSubjectButton.setLayoutParams(layoutParams);
+		addSubjectButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_subject_add_hide));
+		addSubjectButton.setVisibility(View.INVISIBLE);
+		addSubjectButton.setClickable(false);
+
+		FloatingActionButton addExamButton = (FloatingActionButton) findViewById(R.id.add_exam_fab);
+		layoutParams = (CoordinatorLayout.LayoutParams) addExamButton.getLayoutParams();
+		layoutParams.rightMargin -= addButton.getWidth() * 1.3;
+		layoutParams.bottomMargin -= addButton.getHeight() * 0.25;
+		addExamButton.setLayoutParams(layoutParams);
+		addExamButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_exam_add_hide));
+		addExamButton.setVisibility(View.INVISIBLE);
+		addExamButton.setClickable(false);
 	}
 
 	public class AddButtonListener implements FloatingActionButton.OnClickListener {
 
 		@Override
 		public void onClick(View v) {
-			showButtonMenu();
+			ExamListFragment examfrag = (ExamListFragment) getFragmentManager().findFragmentById(R.id.exam_fragment);
+			if(examfrag != null) {
+				if (!fabMenuOpen) {
+					showButtonMenu();
+					fabMenuOpen = true;
+				} else {
+					hideButtonMenu();
+					fabMenuOpen = false;
+				}
+			}
+			else {
+				//TODO:Show subject add dialog
+			}
 		}
 	}
 }

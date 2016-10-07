@@ -23,7 +23,7 @@ import gkjt.github.io.examrevisiontracker.async.AsyncChartInit;
 import gkjt.github.io.examrevisiontracker.datahandling.ExamDataHelper;
 import gkjt.github.io.examrevisiontracker.datastructures.Exam;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuItem.OnMenuItemClickListener {
 
 
     @Override
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
         }
-        startActivity(new Intent(this, SubjectListActivity.class));
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem examManage = menu.findItem(R.id.action_exam_manage);
+        examManage.setOnMenuItemClickListener(this);
         return true;
     }
 
@@ -69,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        startActivity(new Intent(this, SubjectListActivity.class));
+        return false;
     }
 
 }
