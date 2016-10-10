@@ -10,7 +10,7 @@ public class SubjectTable {
     public static final String TABLE_SUBJECTS = "subject";
     public static final String COL_ID = "subject_id";
     public static final String COL_TITLE = "title";
-    public static final String COL_TIME = "timeRevised";
+    public static final String COL_TIME = "time_revised";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_SUBJECTS
             + " ("

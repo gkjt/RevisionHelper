@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by GTucker on 30/08/2015.
  */
 public class RevisionDataHelper extends SQLiteOpenHelper {
-	//TODO:Rename columns like time revised to be more explicit
     private static final String DATABASE_NAME = "revision_database";
     private static final int DATABASE_VERSION = 1;
 

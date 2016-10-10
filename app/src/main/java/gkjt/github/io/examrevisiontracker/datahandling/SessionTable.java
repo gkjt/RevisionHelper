@@ -10,7 +10,7 @@ public class SessionTable {
     public static final String TABLE_SESSIONS = "sessions";
     public static final String COL_ID = "session_id";
     public static final String COL_DURATION = "duration";
-    public static final String COL_TIME = "time";
+    public static final String COL_TIME = "start_time";
     public static final String COL_EXAM = "exam_id";
     public static final String COL_SUBJECT = "subject_id";
 

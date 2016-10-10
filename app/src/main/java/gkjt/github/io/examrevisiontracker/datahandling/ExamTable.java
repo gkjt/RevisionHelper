@@ -12,7 +12,7 @@ public class ExamTable {
     public static final String COL_TITLE = "title";
     public static final String COL_TIME_REVISED = "time_revised";
     public static final String COL_SUBJECT = "subject";
-    public static final String COL_DATE = "date";
+    public static final String COL_DATE = "exam_date";
     public static final String COL_GRADE_PERCENTAGE = "percentage_grade";
 
     private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_EXAMS
