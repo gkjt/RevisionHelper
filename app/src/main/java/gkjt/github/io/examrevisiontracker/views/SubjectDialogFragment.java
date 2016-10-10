@@ -27,7 +27,7 @@ public class SubjectDialogFragment extends DialogFragment {
 
     /**
      * Instantiate a new dialog for an existing subject
-     * @param subject
+     * @param subject Subject to update
      * @return
      */
     public static SubjectDialogFragment newInstance(Subject subject){
