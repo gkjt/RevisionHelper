@@ -42,16 +42,18 @@ public class SubjectDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final Bundle args = getArguments();
         final boolean isNewSubject = args.getBoolean("isNewSubject");
-        final EditText subjectTitleField = (EditText) getDialog().findViewById(R.id.subject_dialog_title_field);
         final Subject subject = (Subject) args.getSerializable("Subject");
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+        dialogBuilder.setView(R.layout.dialog_subject_edit);
+
+        final EditText subjectTitleField = (EditText) getActivity().findViewById(R.id.subject_dialog_title_field);
         dialogBuilder
                 .setTitle(R.string.subject_dialog_title)
                 .setPositiveButton(R.string.dialog_confirm,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO: Save subject title
                         SubjectDataHelper helper = new SubjectDataHelper(getActivity());
 
                         if(isNewSubject){
@@ -70,8 +72,7 @@ public class SubjectDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         ((SubjectDialogFragment) dialog).getDialog().dismiss();
                     }
-                })
-                .setView(R.layout.dialog_subject_edit);
+                });
 
         if(!isNewSubject){
             subjectTitleField.setText(subject.getTitle());

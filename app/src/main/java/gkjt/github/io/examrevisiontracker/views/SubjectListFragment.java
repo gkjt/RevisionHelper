@@ -24,6 +24,7 @@ public class SubjectListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		SubjectDataHelper helper = new SubjectDataHelper(getActivity());
 		SubjectListAdapter adapter = new SubjectListAdapter(getActivity(), helper.getSubjects());
+		getListView().setOnLongClickListener();
 		setListAdapter(adapter);
 	}
 
