@@ -1,21 +1,15 @@
 package gkjt.github.io.examrevisiontracker.views;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import gkjt.github.io.examrevisiontracker.R;
-import gkjt.github.io.examrevisiontracker.datahandling.SubjectTable;
 import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 
 /**
@@ -34,6 +28,7 @@ public class SubjectListAdapter extends ArrayAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
+		//Todo: Check change of null to parent in inflater works (Same in ExamListAdapter)
 		SubjectHolder holder = new SubjectHolder();
 		Subject s = data.get(position);
 
@@ -41,7 +36,7 @@ public class SubjectListAdapter extends ArrayAdapter {
 
 		//Setup view holder pattern
 		if(convertView == null){
-			viewToPopulate = inflater.inflate(R.layout.fragment_subject_list_item, null);
+			viewToPopulate = inflater.inflate(R.layout.fragment_subject_list_item, parent);
 			holder = new SubjectHolder();
 			holder.title = (TextView) viewToPopulate.findViewById(R.id.subject_title);
 			viewToPopulate.setTag(holder);

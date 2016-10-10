@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import gkjt.github.io.examrevisiontracker.R;
 import gkjt.github.io.examrevisiontracker.datastructures.Exam;
-import gkjt.github.io.examrevisiontracker.datastructures.Subject;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class ExamListAdapter extends ArrayAdapter<Exam> {
 			viewToReturn = convertView;
 			holder = (ExamHolder) convertView.getTag();
 		} else {
-			viewToReturn = inflater.inflate(R.layout.fragment_exam_list_item, null);
+			viewToReturn = inflater.inflate(R.layout.fragment_exam_list_item, parent);
 			holder = new ExamHolder();
 			holder.title = (TextView) viewToReturn.findViewById(R.id.exam_title);
 			holder.percentageGrade = (TextView) viewToReturn.findViewById(R.id.exam_percentage_grade);

@@ -97,7 +97,7 @@ public class AsyncChartInit extends AsyncTask<Void, Void, Void> {
 
 			}
 		}
-		ArrayList<Entry> valsDay = new ArrayList<Entry>();
+		ArrayList<Entry> valsDay = new ArrayList<>();
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, -7);
 		for (i=0; i < hoursPerDay.length; i++) {

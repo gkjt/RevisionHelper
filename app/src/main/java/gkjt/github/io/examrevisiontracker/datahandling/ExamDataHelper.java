@@ -71,7 +71,7 @@ public class ExamDataHelper extends RevisionDataHelper {
 
 
 	public List<Exam> getExams(){
-		List<Exam> exams = new ArrayList<Exam>();
+		List<Exam> exams = new ArrayList<>();
 
 		SQLiteDatabase db = getReadableDatabase();
 
@@ -86,11 +86,11 @@ public class ExamDataHelper extends RevisionDataHelper {
 			return exams;
 		}
 
-		return new ArrayList<Exam>();
+		return new ArrayList<>();
 	}
 
 	public List<Exam> getExamsFromSubject(Subject constraint){
-		List<Exam> exams = new ArrayList<Exam>();
+		List<Exam> exams = new ArrayList<>();
 
 		SQLiteDatabase db = getReadableDatabase();
 
@@ -111,7 +111,7 @@ public class ExamDataHelper extends RevisionDataHelper {
 			return exams;
 		}
 
-		return new ArrayList<Exam>();
+		return new ArrayList<>();
 	}
 
 	public int updateExam(Exam exam){

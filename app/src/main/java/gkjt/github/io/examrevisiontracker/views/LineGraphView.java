@@ -9,8 +9,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.ArrayList;
-
 /**
  * Created by User on 24/11/2015.
  */
@@ -26,7 +24,6 @@ public class LineGraphView extends View {
 
     public LineGraphView(Context context){
         super(context);
-        this.points = points;
     }
 
     public LineGraphView(Context context, AttributeSet attributeSet, Point[] points){

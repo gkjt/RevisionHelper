@@ -63,7 +63,7 @@ public class SessionDataHelper extends RevisionDataHelper{
 
 	public List<Session> getSessions(){
 		SQLiteDatabase db = getReadableDatabase();
-		List<Session> sessions = new ArrayList<Session>();
+		List<Session> sessions = new ArrayList<>();
 
 		String select = "SELECT * FROM " + SessionTable.TABLE_SESSIONS;
 		Cursor curs = db.rawQuery(select, null);
@@ -81,7 +81,7 @@ public class SessionDataHelper extends RevisionDataHelper{
 
 	public List<Session> getSessionsAfter(Date date){
 		SQLiteDatabase db = getReadableDatabase();
-		List<Session> sessions = new ArrayList<Session>();
+		List<Session> sessions = new ArrayList<>();
 
 		String select = "SELECT * FROM " + SessionTable.TABLE_SESSIONS + " WHERE "
 				+ SessionTable.COL_TIME + " > " + date.getTime()
@@ -96,7 +96,7 @@ public class SessionDataHelper extends RevisionDataHelper{
 			return sessions;
 		}
 
-		return new ArrayList<Session>();
+		return new ArrayList<>();
 	}
 
 	public int updateSession(Session session){

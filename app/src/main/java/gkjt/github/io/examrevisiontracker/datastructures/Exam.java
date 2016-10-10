@@ -1,10 +1,6 @@
 package gkjt.github.io.examrevisiontracker.datastructures;
 
-import android.content.ContentValues;
-
 import java.io.Serializable;
-
-import gkjt.github.io.examrevisiontracker.datahandling.ExamTable;
 
 /**
  * Created by GTucker on 31/08/2015.

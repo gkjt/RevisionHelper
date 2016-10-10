@@ -1,7 +1,5 @@
 package gkjt.github.io.examrevisiontracker.datastructures;
 
-import android.support.annotation.Nullable;
-
 import java.io.Serializable;
 
 /**

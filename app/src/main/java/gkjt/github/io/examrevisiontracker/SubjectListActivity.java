@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-
-import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 		super.onCreate(savedInstanceState);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-			getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+			getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary_dark));
 		}
 		setContentView(R.layout.activity_subject_list);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,7 +59,7 @@ public class SubjectListActivity extends AppCompatActivity implements SubjectLis
 		ExamListFragment examfrag = (ExamListFragment) getFragmentManager().findFragmentById(R.id.exam_fragment);
 
 		ExamDataHelper helper = new ExamDataHelper(this);
-		ArrayList exams = (ArrayList)helper.getExamsFromSubject(selected);
+		ArrayList<Exam> exams = (ArrayList<Exam>)helper.getExamsFromSubject(selected);
 		exams.add(new Exam(1l,60l,10l,20l,"Exam 1",(short)70));
 		if(exams.isEmpty()) {
 			//TODO: Make this open exam add dialog for selected subject
